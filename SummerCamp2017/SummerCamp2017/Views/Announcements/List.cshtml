@@ -1,0 +1,49 @@
+﻿@model IEnumerable<SummerCamp2017.Models.Announcement>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AnnouncementId)
+        </th>
+        <th>
+           Category
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Closed)
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AnnouncementId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CategoryName)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Closed)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AnnouncementId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AnnouncementId }) 
+        </td>
+    </tr>
+}
+
+</table>

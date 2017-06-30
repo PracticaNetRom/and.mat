@@ -1,0 +1,83 @@
+﻿@model SummerCamp2017.Models.AnnouncementDetails
+
+<div>
+    <h4>AnnouncementDetails</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @*@Html.DisplayNameFor(model => model.AnnouncementId)*@
+            Announcement Id
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.Phonenumber)*@
+            Phone number
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phonenumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.PostDate)*@
+            Post date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostDate)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.ExpirationDate)*@
+            Expiration date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExpirationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.CategoryName)*@
+            Category name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CategoryName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
+    @Html.ActionLink("Back to List", "List")
+</p>
