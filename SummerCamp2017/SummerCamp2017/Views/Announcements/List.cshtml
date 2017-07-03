@@ -1,49 +1,106 @@
 ﻿@model IEnumerable<SummerCamp2017.Models.Announcement>
 
+@{ 
+    List<string> l = new List<string>();
+    foreach(var item in Model)
+    {
+        if(l.Exists(c => c == item.CategoryName) == false)
+        {
+            l.Add(item.CategoryName);
+        }
+
+    }
+}
+
+<div class="dropdown">
+    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+        Categories
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" id="drop">
+        @foreach (var item in l)
+        {
+            <li><a href="#" class="ex">@Html.DisplayFor(modelItem => item)</a></li>
+        }
+        
+    </ul>
+</div>
+
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.AnnouncementId)
-        </th>
-        <th>
-           Category
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Closed)
-        </th>
-        
-        <th></th>
-    </tr>
+<table class="table" id="tableAnn">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AnnouncementId)
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Closed)
+            </th>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AnnouncementId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CategoryName)
-        </td>
-        
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Closed)
-        </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AnnouncementId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
 
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AnnouncementId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AnnouncementId }) 
-        </td>
-    </tr>
-}
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
 
+                <td>
+                    @Html.DisplayFor(modelItem => item.Closed)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.AnnouncementId }) |
+                    @Html.ActionLink("Reviews", "List", "Reviews", new { id = item.AnnouncementId }, null)|
+                    @Html.ActionLink("Close", "Close", new { id = item.AnnouncementId })
+
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(
+       
+        $("li").on("click", function () {
+            debugger
+            var table = $("#tableAnn").find("tbody");
+            var tr = table.find("tr");
+            for (var i = 0; i < tr.length; i++) {
+                var td = $(tr[i]).find("td");
+                var value = td[1].innerText.trim();
+                //$("li a ").removeClass("ex");
+                var s = this.innerText.trim();
+
+                if (value !== s) {
+                    $(tr[i]).hide();
+                }
+                else {
+                    $(tr[i]).show();
+                }
+            }
+        })
+    )
+</script>
+

@@ -200,16 +200,20 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Announcement.cs" />
     <Compile Include="Models\AnnouncementDetails.cs" />
+    <Compile Include="Models\AnnouncementPost.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Email.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Review.cs" />
+    <Compile Include="Models\ReviewsForAnnouncement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestClient\RestClient.cs" />
     <Compile Include="Startup.cs" />
@@ -281,8 +285,10 @@
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Announcements\List.cshtml" />
     <Content Include="Views\Announcements\Details.cshtml" />
-    <Content Include="Views\Announcements\Edit.cshtml" />
+    <Content Include="Views\Reviews\List.cshtml" />
+    <Content Include="Views\Reviews\Create.cshtml" />
     <Content Include="Views\Announcements\Create.cshtml" />
+    <Content Include="Views\Announcements\Close.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

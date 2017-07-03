@@ -1,0 +1,11 @@
+﻿@model SummerCamp2017.Models.Email
+
+@using (Html.BeginForm("Close", "Announcements", null,FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.Editor("email")
+    </div>
+    <button id="submitBttn" type="submit">Submit</button>
+}

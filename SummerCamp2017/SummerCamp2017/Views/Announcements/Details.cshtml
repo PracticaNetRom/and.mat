@@ -1,5 +1,4 @@
 ﻿@model SummerCamp2017.Models.AnnouncementDetails
-
 <div>
     <h4>AnnouncementDetails</h4>
     <hr />
@@ -22,13 +21,13 @@
             @Html.DisplayFor(model => model.Phonenumber)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Email)
-        </dd>
+        </dd>*@
 
         <dt>
             @*@Html.DisplayNameFor(model => model.PostDate)*@
@@ -64,7 +63,7 @@
             @Html.DisplayFor(model => model.Title)
         </dd>
 
-        
+
 
         <dt>
             @*@Html.DisplayNameFor(model => model.CategoryName)*@
@@ -77,7 +76,10 @@
 
     </dl>
 </div>
+
 <p>
-    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
+    @*@Html.ActionLink("Close ", "Close", new { id = Model.Id })*@
+
     @Html.ActionLink("Back to List", "List")
+
 </p>

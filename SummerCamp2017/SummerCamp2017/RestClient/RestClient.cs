@@ -14,6 +14,17 @@ namespace Plugin.RestClient
         {
             public string WebServiceUrl = "http://taskmodel.azurewebsites.net/api/TaskModels/";
 
+
+        //public List<T> GetByAnnouncement(int id)
+        //{
+        //    var httpClient = new HttpClient();
+
+        //    var json = httpClient.GetStringAsync(WebServiceUrl + id).Result;
+
+        //    var obj = JsonConvert.DeserializeObject<List<T>>(json);
+
+        //    return obj;
+        //}
             public List<T> GetAsync()
             {
                 var httpClient = new HttpClient();
@@ -48,7 +59,37 @@ namespace Plugin.RestClient
 
                 return result.IsSuccessStatusCode;
             }
-           
+            
+
+            public bool Close(T t)
+            {
+                var httpClient = new HttpClient();
+            var json = JsonConvert.SerializeObject(t);
+
+            HttpContent httpContent = new StringContent(json);
+
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var response = httpClient.PostAsync(WebServiceUrl, httpContent).Result;
+
+                return response.IsSuccessStatusCode;
+            }
+
+
+        public bool PutAsync(int id, T t)
+        {
+            var httpClient = new HttpClient();
+
+            var json = JsonConvert.SerializeObject(t);
+
+            HttpContent httpContent = new StringContent(json);
+
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var result = httpClient.PutAsync(WebServiceUrl + id, httpContent).Result;
+
+            return result.IsSuccessStatusCode;
         }
+
+    }
     
 }

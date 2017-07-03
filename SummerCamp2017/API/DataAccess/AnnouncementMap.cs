@@ -20,7 +20,7 @@ namespace API.DataAccess
             this.Property(t => t.AnnouncementId).HasColumnName("AnnouncementId").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(t => t.CategoryId).HasColumnName("CategoryId");
             this.Property(t => t.Phonenumber).HasColumnName("Phonenumber").IsRequired().HasMaxLength(64);
-            this.Property(t => t.Email).HasColumnName("Email").IsRequired().HasMaxLength(16);
+            this.Property(t => t.Email).HasColumnName("Email").IsRequired().HasMaxLength(32);
             this.Property(t => t.PostDate).HasColumnName("PostDate").IsRequired();
             this.Property(t => t.ExpirationDate).HasColumnName("ExpirationDate").IsRequired();
             this.Property(t => t.Description).HasColumnName("Description").IsRequired();

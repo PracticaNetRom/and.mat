@@ -7,6 +7,7 @@ using System.Web.Http;
 using API.DataAccess;
 using API.Models;
 using System.Collections.Generic;
+using System.Web.Http.Description;
 
 namespace SummerCamp.WebAPI.Controllers
 {
@@ -47,6 +48,40 @@ namespace SummerCamp.WebAPI.Controllers
             }
         }
 
+        [ResponseType(typeof(void))]
+        [HttpPut]
+        [Route("api/Announcements/PutAnnouncement")]
+
+        public IHttpActionResult PutAnnouncement(int id, [FromBody]Announcement a)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != a.AnnouncementId)
+            {
+                return BadRequest();
+            }
+            using (SummerCampDbContext ctx = new SummerCampDbContext())
+            {
+                Announcement foundAnnouncement = ctx.Announcements.Find(a.AnnouncementId);
+                foundAnnouncement.CategoryId = a.CategoryId;
+                foundAnnouncement.Title = a.Title;
+                foundAnnouncement.Description = a.Description;
+                foundAnnouncement.Email = a.Email;
+                foundAnnouncement.Phonenumber = a.Phonenumber;
+                foundAnnouncement.PostDate = DateTime.Now;
+                foundAnnouncement.ExpirationDate = DateTime.Now.AddMonths(1);
+                ctx.SaveChanges();
+
+               
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
         [HttpGet]
         public HttpResponseMessage Get(int id)
         {
@@ -66,6 +101,7 @@ namespace SummerCamp.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Route("api/Announcements/NewAnnouncement")]
         public HttpResponseMessage NewAnnouncement([FromBody] AnnouncementCreateDTO announcement)
         {
             if (ModelState.IsValid)
@@ -95,14 +131,18 @@ namespace SummerCamp.WebAPI.Controllers
 
             return Request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
         }
+       
+           
+
+           
 
         [HttpPost]
-        [Route("api/Announcements/CloseAnnouncement")]
-        public HttpResponseMessage CloseAnnouncement([FromUri] int announcementId, [FromBody] AnnouncementAuthDTO authInfo)
+        [Route("api/Announcements/CloseAnnouncement/{id}")]
+        public HttpResponseMessage CloseAnnouncement([FromUri] int id, [FromBody] AnnouncementAuthDTO authInfo)
         {
             using (SummerCampDbContext ctx = new SummerCampDbContext())
             {
-                Announcement announcement = ctx.Announcements.FirstOrDefault(a => a.AnnouncementId == announcementId);
+                Announcement announcement = ctx.Announcements.FirstOrDefault(a => a.AnnouncementId == id);
 
                 if (string.Equals(announcement.Email, authInfo.Email, StringComparison.OrdinalIgnoreCase))
                 {

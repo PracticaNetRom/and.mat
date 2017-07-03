@@ -27,6 +27,6 @@ namespace SummerCamp2017.Models
 
         public  string CategoryName { get; set; }
 
-        public List<Review> Reviews { get; set; }
+        //public IEnumerable<Review> Reviews { get; set; }
     }
 }
