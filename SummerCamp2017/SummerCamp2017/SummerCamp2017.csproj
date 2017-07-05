@@ -289,6 +289,7 @@
     <Content Include="Views\Reviews\Create.cshtml" />
     <Content Include="Views\Announcements\Create.cshtml" />
     <Content Include="Views\Announcements\Close.cshtml" />
+    <Content Include="Views\Announcements\Extend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

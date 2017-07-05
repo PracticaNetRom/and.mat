@@ -157,12 +157,12 @@ namespace SummerCamp.WebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("api/Announcements/ExtendAnnouncement")]
-        public HttpResponseMessage ExtendAnnouncement([FromUri] int announcementId, [FromBody] AnnouncementAuthDTO authInfo)
+        [Route("api/Announcements/ExtendAnnouncement/{id}")]
+        public HttpResponseMessage ExtendAnnouncement([FromUri] int id, [FromBody] AnnouncementAuthDTO authInfo)
         {
             using (SummerCampDbContext ctx = new SummerCampDbContext())
             {
-                Announcement announcement = ctx.Announcements.FirstOrDefault(a => a.AnnouncementId == announcementId);
+                Announcement announcement = ctx.Announcements.FirstOrDefault(a => a.AnnouncementId == id);
 
                 if (string.Equals(announcement.Email, authInfo.Email, StringComparison.OrdinalIgnoreCase))
                 {

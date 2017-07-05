@@ -19,7 +19,7 @@ namespace API.Controllers
                 var data = ctx.Categories.Select(c =>
                         new
                         {
-                            Id = c.CategoryId,
+                            CategoryId = c.CategoryId,
                             Name = c.Name
                         }).ToList();
 

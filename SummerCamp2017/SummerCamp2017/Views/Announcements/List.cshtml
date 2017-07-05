@@ -1,5 +1,10 @@
 ﻿@model IEnumerable<SummerCamp2017.Models.Announcement>
-
+<style>
+   
+    .classColor {
+        background-color: #ffccff;
+    }
+</style>
 @{ 
     List<string> l = new List<string>();
     foreach(var item in Model)
@@ -11,7 +16,7 @@
 
     }
 }
-
+<h3>Announcements</h3>
 <div class="dropdown">
     <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
         Categories
@@ -20,7 +25,7 @@
     <ul class="dropdown-menu" id="drop">
         @foreach (var item in l)
         {
-            <li><a href="#" class="ex">@Html.DisplayFor(modelItem => item)</a></li>
+            <li><a href="#">@Html.DisplayFor(modelItem => item)</a></li>
         }
         
     </ul>
@@ -52,48 +57,65 @@
         @foreach (var item in Model)
         {
 
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AnnouncementId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryName)
-                </td>
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AnnouncementId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryName)
+                    </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Closed)
-                </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Closed)
+                    </td>
 
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.AnnouncementId }) |
-                    @Html.ActionLink("Reviews", "List", "Reviews", new { id = item.AnnouncementId }, null)|
-                    @Html.ActionLink("Close", "Close", new { id = item.AnnouncementId })
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.AnnouncementId })
 
-                </td>
-            </tr>
+
+                    </td>
+                </tr>
+            }
+           
         }
     </tbody>
 </table>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
 <script>
-    $(document).ready(
-       
+    $(document).ready(function () {
+        debugger
+        var table = $("#tableAnn").find("tbody");
+        var tr = table.find("tr");
+        for (var i = 0; i < tr.length; i++) {
+            
+            var td = $(tr[i]).find("td");
+            var aa = td.find("input");
+
+            if ($(aa).is(':checked')) {
+                $(tr[i]).addClass("classColor");
+            }
+        }
+
         $("li").on("click", function () {
-            debugger
+            
             var table = $("#tableAnn").find("tbody");
             var tr = table.find("tr");
             for (var i = 0; i < tr.length; i++) {
                 var td = $(tr[i]).find("td");
                 var value = td[1].innerText.trim();
-                //$("li a ").removeClass("ex");
-                var s = this.innerText.trim();
 
-                if (value !== s) {
+
+                var dropDown = this.innerText.trim();
+
+                if (value !== dropDown) {
                     $(tr[i]).hide();
                 }
                 else {
@@ -101,6 +123,8 @@
                 }
             }
         })
+
+    }
     )
 </script>
 

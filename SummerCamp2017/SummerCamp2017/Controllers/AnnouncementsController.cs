@@ -23,6 +23,15 @@ namespace SummerCamp2017.Controllers
             var announcementList = rc.GetAsync();
             return announcementList;
         }
+
+        public List<Category> GetCategories()
+        {
+            RestClient<Category> rc = new RestClient<Category>();
+            rc.WebServiceUrl = "http://localhost:10469/api/categories/";
+            var categoryList = rc.GetAsync();
+            return categoryList;
+        }
+
         // POST: Announcement
         public bool PostAnnouncement(AnnouncementPost a)
         {
@@ -62,8 +71,19 @@ namespace SummerCamp2017.Controllers
 
             return response;
         }
+        public bool ExtendAnnouncement(int id, AnnouncementDetails ann)
+        {
+
+            RestClient<AnnouncementDetails> rc = new RestClient<AnnouncementDetails>();
+            rc.WebServiceUrl = "http://localhost:10469/api/Announcements/ExtendAnnouncement/" + id;
+            bool response = rc.Extend(ann);
+
+            return response;
+        }
         public ActionResult Create()
         {
+            List<Category> categoryList = GetCategories();
+            ViewBag.data = categoryList;
             return View();
         }
 
@@ -107,6 +127,41 @@ namespace SummerCamp2017.Controllers
                 List<Announcement> announcementList = GetAnnouncements();
 
                 return View(announcementList);
+
+        }
+        //public ActionResult DropDownCategories()
+        //{
+
+            
+        //    return View(ViewBag);
+
+        //}
+        public ActionResult Extend(int id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Extend(int id, string email)
+        {
+            AnnouncementDetails announcement = GetAnnouncementById(id);
+            if (announcement.Email == email)
+            {
+                bool response = ExtendAnnouncement(id, announcement);
+                if (response)
+                {
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+            }
+
+            else
+            {
+                return HttpNotFound();
+            }
 
         }
         public ActionResult Close(int id)

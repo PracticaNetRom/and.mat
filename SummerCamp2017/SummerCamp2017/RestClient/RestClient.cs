@@ -74,22 +74,34 @@ namespace Plugin.RestClient
                 return response.IsSuccessStatusCode;
             }
 
+            public bool Extend(T t)
+            {
+                var httpClient = new HttpClient();
+                var json = JsonConvert.SerializeObject(t);
 
-        public bool PutAsync(int id, T t)
-        {
-            var httpClient = new HttpClient();
+                HttpContent httpContent = new StringContent(json);
 
-            var json = JsonConvert.SerializeObject(t);
+                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var response = httpClient.PostAsync(WebServiceUrl, httpContent).Result;
 
-            HttpContent httpContent = new StringContent(json);
+                return response.IsSuccessStatusCode;
+            }
 
-            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            public bool PutAsync(int id, T t)
+            {
+                var httpClient = new HttpClient();
 
-            var result = httpClient.PutAsync(WebServiceUrl + id, httpContent).Result;
+                var json = JsonConvert.SerializeObject(t);
 
-            return result.IsSuccessStatusCode;
+                HttpContent httpContent = new StringContent(json);
+
+                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                var result = httpClient.PutAsync(WebServiceUrl + id, httpContent).Result;
+
+                return result.IsSuccessStatusCode;
+            }
+
         }
-
-    }
     
 }

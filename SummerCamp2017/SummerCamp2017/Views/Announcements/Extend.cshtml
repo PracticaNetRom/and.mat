@@ -1,0 +1,14 @@
+﻿@model SummerCamp2017.Models.Email
+
+
+@using (Html.BeginForm("Extend", "Announcements", null, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.Editor("email")
+    </div>
+    <button id="submitBttn" type="submit">Extend announcement</button>
+}
+
+@Html.ActionLink("Back to announcements list", "List" )

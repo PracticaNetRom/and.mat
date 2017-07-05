@@ -80,6 +80,8 @@
 <p>
     @*@Html.ActionLink("Close ", "Close", new { id = Model.Id })*@
 
-    @Html.ActionLink("Back to List", "List")
-
+    @Html.ActionLink("Back to List", "List")|
+    @Html.ActionLink("Close", "Close", new { id = Model.Id })|
+    @Html.ActionLink("Extend", "Extend", new { id = Model.Id})|
+    @Html.ActionLink("Reviews", "List", "Reviews", new { id = Model.Id }, null)
 </p>
