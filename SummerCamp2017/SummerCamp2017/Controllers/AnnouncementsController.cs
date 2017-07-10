@@ -239,10 +239,15 @@ namespace SummerCamp2017.Controllers
         }
         public ActionResult Details(int id)
         {
+
             List<Review> listReviews = GetReviewsForAnnouncement(id);
+            
+            listReviews.Reverse();
+
             int sum = 0, j = 0;
             AnnouncementDetails a = GetAnnouncementById(id);
             a.Reviews = listReviews;
+            
             if (listReviews.Count > 0)
             {
                 foreach (var item in listReviews)
@@ -254,6 +259,7 @@ namespace SummerCamp2017.Controllers
                 int rounded = (int)Math.Round(ratingAverage, 0);
                 ViewBag.average = rounded;
             }
+            
             return View(a);
         }
 

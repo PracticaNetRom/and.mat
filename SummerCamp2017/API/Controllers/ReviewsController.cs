@@ -23,7 +23,7 @@ namespace API.Controllers
                       Comment = r.Comment,
                       Username = r.Username,
                       Postdate = r.Postdate
-                  }).ToList();
+                  }).ToList();//.OrderByDescending(d => d.Postdate);
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, data);
                 return response;

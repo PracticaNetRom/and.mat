@@ -33,39 +33,45 @@
             color: #f70;
         }
 
-       
+
 
         .rating > label:active {
             position: relative;
         }
-        .thumbnail {
-    padding:0px;
-}
-.panel {
-	position:relative;
-}
-.panel>.panel-heading:after,.panel>.panel-heading:before{
-	position:absolute;
-	top:11px;left:-16px;
-	right:100%;
-	width:0;
-	height:0;
-	display:block;
-	content:" ";
-	border-color:transparent;
-	border-style:solid solid outset;
-	pointer-events:none;
-}
-.panel>.panel-heading:after{
-	border-width:7px;
-	border-right-color:#f7f7f7;
-	margin-top:1px;
-	margin-left:2px;
-}
-.panel>.panel-heading:before{
-	border-right-color:#ddd;
-	border-width:8px;
-}
+
+    .thumbnail {
+        padding: 0px;
+    }
+
+    .panel {
+        position: relative;
+    }
+
+        .panel > .panel-heading:after, .panel > .panel-heading:before {
+            position: absolute;
+            top: 11px;
+            left: -16px;
+            right: 100%;
+            width: 0;
+            height: 0;
+            display: block;
+            content: " ";
+            border-color: transparent;
+            border-style: solid solid outset;
+            pointer-events: none;
+        }
+
+        .panel > .panel-heading:after {
+            border-width: 7px;
+            border-right-color: #f7f7f7;
+            margin-top: 1px;
+            margin-left: 2px;
+        }
+
+        .panel > .panel-heading:before {
+            border-right-color: #ddd;
+            border-width: 8px;
+        }
 </style>
 
 <div>
@@ -73,9 +79,9 @@
     <hr />
     <dl class="dl-horizontal">
         @*<dt>*@
-            @*@Html.DisplayNameFor(model => model.AnnouncementId)*@
-            @*Announcement Id
-        </dt>*@
+        @*@Html.DisplayNameFor(model => model.AnnouncementId)*@
+        @*Announcement Id
+            </dt>*@
 
         <dd>
             @Html.HiddenFor(model => model.Id)
@@ -143,31 +149,31 @@
             @Html.DisplayFor(model => model.CategoryName)
         </dd>
         <dt>
-           Average rating
+            Average rating
         </dt>
 
         <dd>
             @Html.Raw(ViewBag.average)
             @*<p>
-                <span>
-                    @Html.Raw(ViewBag.average, new { id = "idd"})
-                    @Html.HiddenFor(m => m.Viewbag.average, new { id = "viewbag"})
-                </span>
+                    <span>
+                        @Html.Raw(ViewBag.average, new { id = "idd"})
+                        @Html.HiddenFor(m => m.Viewbag.average, new { id = "viewbag"})
+                    </span>
 
-                <fieldset class="rating" id="f">
-                    <input type="checkbox" id="@item.Rating" name="rating" value="5" disabled />
-                    <label for="star5">5 stars</label>
-                    <input type="checkbox" name="rating" value="4" disabled />
-                    <label for="star4">4 stars</label>
-                    <input type="checkbox" name="rating" value="3" disabled />
-                    <label for="star3">3 stars</label>
-                    <input type="checkbox" name="rating" value="2" disabled />
-                    <label for="star2">2 stars</label>
-                    <input type="checkbox" name="rating" value="1" disabled />
-                    <label for="star1">1 star</label>
-                </fieldset>
+                    <fieldset class="rating" id="f">
+                        <input type="checkbox" id="@item.Rating" name="rating" value="5" disabled />
+                        <label for="star5">5 stars</label>
+                        <input type="checkbox" name="rating" value="4" disabled />
+                        <label for="star4">4 stars</label>
+                        <input type="checkbox" name="rating" value="3" disabled />
+                        <label for="star3">3 stars</label>
+                        <input type="checkbox" name="rating" value="2" disabled />
+                        <label for="star2">2 stars</label>
+                        <input type="checkbox" name="rating" value="1" disabled />
+                        <label for="star1">1 star</label>
+                    </fieldset>
 
-            </p><br /><br />*@
+                </p><br /><br />*@
         </dd>
 
     </dl>
@@ -184,41 +190,42 @@
 
 @if (Model.Closed == false)
 {
-<p>
-    @Html.ActionLink("Add review", "CreateRev", "Reviews", new { announcementId = Model.Id }, null)
-</p>
+    <p>
+        @Html.ActionLink("Add review", "CreateRev", "Reviews", new { announcementId = Model.Id }, null)
+    </p>
 }
 <div style="display:block">
+   
     @foreach (var item in Model.Reviews)
     {
         @*<div style="border:double">
-            <p><strong>Rating</strong>
-                <span>
-                    @Html.HiddenFor(modelItem => item.Rating, new { id = "ratingStar" })
-            </span>
+                <p><strong>Rating</strong>
+                    <span>
+                        @Html.HiddenFor(modelItem => item.Rating, new { id = "ratingStar" })
+                </span>
 
-                <fieldset class="rating" id="f">
-                    <input type="checkbox" id="@item.Rating" name="rating" value="5" disabled />
-                    <label for="star5">5 stars</label>
-                    <input type="checkbox" name="rating" value="4" disabled />
-                    <label for="star4">4 stars</label>
-                    <input type="checkbox" name="rating" value="3" disabled />
-                    <label for="star3">3 stars</label>
-                    <input type="checkbox" name="rating" value="2" disabled />
-                    <label for="star2">2 stars</label>
-                    <input type="checkbox" name="rating" value="1" disabled />
-                    <label for="star1">1 star</label>
-                </fieldset>
-                
-            </p><br /><br />
-            <p><strong>Comment</strong>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </p>
-            <p><strong>User name</strong>
-                @Html.DisplayFor(modelItem => item.Username)
-            </p>
+                    <fieldset class="rating" id="f">
+                        <input type="checkbox" id="@item.Rating" name="rating" value="5" disabled />
+                        <label for="star5">5 stars</label>
+                        <input type="checkbox" name="rating" value="4" disabled />
+                        <label for="star4">4 stars</label>
+                        <input type="checkbox" name="rating" value="3" disabled />
+                        <label for="star3">3 stars</label>
+                        <input type="checkbox" name="rating" value="2" disabled />
+                        <label for="star2">2 stars</label>
+                        <input type="checkbox" name="rating" value="1" disabled />
+                        <label for="star1">1 star</label>
+                    </fieldset>
 
-        </div>*@
+                </p><br /><br />
+                <p><strong>Comment</strong>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </p>
+                <p><strong>User name</strong>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </p>
+
+            </div>*@
 
         <div class="col-sm-5">
             <div class="panel panel-default">
@@ -226,7 +233,7 @@
                     <strong>@Html.DisplayFor(modelItem => item.Username)</strong>
                 </div>
                 <div class="panel-body">
-                    <div >
+                    <div>
                         <p>
                             <strong>Rating</strong>
                             <span>
@@ -251,22 +258,27 @@
                             <strong>Comment</strong>
                             @Html.DisplayFor(modelItem => item.Comment)
                         </p>
-                        
+                        <p>
+                            <strong>Post date</strong>
+                            @Html.DisplayFor(modelItem => item.Postdate)
+                        </p>
+
                     </div>
                 </div>
             </div>
-      </div>
-      <br/>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
 
     }
 </div>
@@ -283,13 +295,13 @@
     var e = w.find("span");
     var s = e.find("input");
 
-   
+
 
 
     for (var i = 0; i < s.length; i++) {
         var value = $(s[i]).val();
         list.push(value);
-       
+
     }
 
     var find1 = $("fieldset").find("input");
@@ -305,64 +317,64 @@
         if (j >= 5) {
             if (list[i] == 1) {
                 var s = j + 4;
-                l[s]=true;
+                l[s] = true;
                 //$(find1[s]).prop('checked', true);
             }
             if (list[i] == 2) {
 
                 var s = j + 3;
-                l[s]=true;
-               // $(find1[s]).prop('checked', true);
+                l[s] = true;
+                // $(find1[s]).prop('checked', true);
             }
             if (list[i] == 3) {
                 var s = j + 2;
-                l[s]=true;
+                l[s] = true;
                 //$(find1[s]).prop('checked', true);
             }
             if (list[i] == 4) {
                 var s = j + 1;
-                l[s]=true;
+                l[s] = true;
                 //$(find1[s]).prop('checked', true);
             }
             if (list[i] == 5) {
                 var s = j;
-                l[s]=true;
+                l[s] = true;
                 //$(find1[s]).prop('checked', true);
             }
         }
         if (j == 0) {
             if (list[i] == 1) {
                 l[4] = true;
-               // $(find1[4]).prop('checked', true);
+                // $(find1[4]).prop('checked', true);
             }
             if (list[i] == 2) {
-                l[3]=true;
-               // $(find1[3]).prop('checked', true);
+                l[3] = true;
+                // $(find1[3]).prop('checked', true);
             }
             if (list[i] == 3) {
-                l[2]=true;
-               // $(find1[2]).prop('checked', true);
+                l[2] = true;
+                // $(find1[2]).prop('checked', true);
             }
             if (list[i] == 4) {
-                l[1]=true;
-               // $(find1[1]).prop('checked', true);
+                l[1] = true;
+                // $(find1[1]).prop('checked', true);
             }
             if (list[i] == 5) {
-                l[0]=true;
-               // $(find1[0]).prop('checked', true);
+                l[0] = true;
+                // $(find1[0]).prop('checked', true);
             }
         }
-       
-        
-    }
-    
-        for (var k = 0; k < find1.length; k++) {
-            //if (l[k] == true) {
-                $(find1[k]).prop('checked', l[k]);
-               // $(find1[k]).not(this).prop('checked', this.checked);
-             //}
 
-        }
-    
-       
+
+    }
+
+    for (var k = 0; k < find1.length; k++) {
+        //if (l[k] == true) {
+        $(find1[k]).prop('checked', l[k]);
+        // $(find1[k]).not(this).prop('checked', this.checked);
+        //}
+
+    }
+
+
 </script>
