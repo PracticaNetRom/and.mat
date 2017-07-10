@@ -28,19 +28,9 @@ namespace SummerCamp2017.Models
 
         public MailHelper()
         {
-            ////MailServer - Represents the SMTP Server
-            //_host = ConfigurationManager.AppSettings["MailServer"];
-            ////Port- Represents the port number
-            //_port = int.Parse(ConfigurationManager.AppSettings["Port"]);
-            ////MailAuthUser and MailAuthPass - Used for Authentication for sending email
-            //_user = ConfigurationManager.AppSettings["mateiasiandreea19@gmail.com"];
-            //_pass = ConfigurationManager.AppSettings["2511940786764568buccr"];
-            //_ssl = Convert.ToBoolean(ConfigurationManager.AppSettings["EnableSSL"]);
-            //MailServer - Represents the SMTP Server
+           
             _host = ConfigurationManager.AppSettings["MailServer"];
-            //Port- Represents the port number
             _port = int.Parse(ConfigurationManager.AppSettings["Port"]);
-            //MailAuthUser and MailAuthPass - Used for Authentication for sending email
             _user = ConfigurationManager.AppSettings["MailAuthUser"];
             _pass = ConfigurationManager.AppSettings["MailAuthPass"];
             _ssl = Convert.ToBoolean(ConfigurationManager.AppSettings["EnableSSL"]);
@@ -51,7 +41,6 @@ namespace SummerCamp2017.Models
             try
             {
 
-                // We do not catch the error here... let it pass direct to the caller
                 Attachment att = null;
                 var message = new MailMessage(Sender, Recipient, Subject, Body) { IsBodyHtml = true };
                 if (RecipientCC != null)
