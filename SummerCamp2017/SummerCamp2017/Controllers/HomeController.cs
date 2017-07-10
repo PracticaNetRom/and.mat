@@ -15,14 +15,15 @@ namespace SummerCamp2017.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Post anythig you wolud like to sell and we are sure that you will find a buyer!";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Contact us !";
+            ViewBag.date = DateTime.Now;
 
             return View();
         }

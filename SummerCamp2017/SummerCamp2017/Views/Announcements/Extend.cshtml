@@ -1,12 +1,17 @@
-﻿@model SummerCamp2017.Models.Email
+﻿@model SummerCamp2017.Models.CloseAnnouncement
 
 
 @using (Html.BeginForm("Extend", "Announcements", null, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-    <div>
-        @Html.Editor("email")
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email)
+            @Html.ValidationMessage("err")
+        </div>
     </div>
     <button id="submitBttn" type="submit">Extend announcement</button>
 }

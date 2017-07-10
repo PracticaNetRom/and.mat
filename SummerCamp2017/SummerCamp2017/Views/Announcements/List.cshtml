@@ -2,8 +2,9 @@
 <style>
    
     .classColor {
-        background-color: #ffccff;
+        background-color: #f5f5ef;
     }
+    
 </style>
 @{ 
     List<string> l = new List<string>();
@@ -37,9 +38,7 @@
 <table class="table" id="tableAnn">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.AnnouncementId)
-            </th>
+            <th></th>
             <th>
                 Category
             </th>
@@ -60,7 +59,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.AnnouncementId)
+                        @Html.HiddenFor(modelItem => item.AnnouncementId)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CategoryName)

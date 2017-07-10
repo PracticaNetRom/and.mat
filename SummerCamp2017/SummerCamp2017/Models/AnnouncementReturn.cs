@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace API.DataAccess
+namespace SummerCamp2017.Models
 {
-    public class Announcement
+    public class AnnouncementReturn
     {
         public int AnnouncementId { get; set; }
 
@@ -26,13 +26,5 @@ namespace API.DataAccess
         public int CategoryId { get; set; }
         public bool Confirmed { get; set; }
 
-        public virtual Category Category { get; set; }
-
-        public virtual ICollection<Review> Reviews { get; set; }
-
-        public Announcement()
-        {
-            Reviews = new List<Review>();
-        }
     }
 }

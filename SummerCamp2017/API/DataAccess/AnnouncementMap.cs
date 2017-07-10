@@ -26,6 +26,7 @@ namespace API.DataAccess
             this.Property(t => t.Description).HasColumnName("Description").IsRequired();
             this.Property(t => t.Title).HasColumnName("Title").IsRequired().HasMaxLength(128);
             this.Property(t => t.Closed).HasColumnName("Closed").IsRequired();
+            this.Property(t => t.Confirmed).HasColumnName("Confirmed").IsRequired();
 
             // Relationships
             this.HasRequired(t => t.Category)

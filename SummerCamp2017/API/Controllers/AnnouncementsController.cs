@@ -18,19 +18,8 @@ namespace SummerCamp.WebAPI.Controllers
         {
             using (SummerCampDbContext ctx = new SummerCampDbContext())
             {
-               // List<Announcement> an = ctx.Announcement.ToList();
-                /*intermediar obj = new intermediar();
-                List<intermediar> list = new List<intermediar>();
-                foreach (var a in ctx.Announcements)
-                {
-                    obj.AnnouncementId = a.AnnouncementId;
-                    obj.Closed = a.Closed;
-                    obj.Title = a.Title;
-                    list.Add(obj);
-                }
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, list);
-                return response;*/
-                 var data = ctx.Announcements.Select(a =>
+               
+                 var data = ctx.Announcements.Where(a => a.Confirmed).Select(a =>
                      new
                      {
                          AnnouncementId = a.AnnouncementId,
@@ -46,40 +35,41 @@ namespace SummerCamp.WebAPI.Controllers
                  HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, data);
                  return response;
             }
+
         }
 
-        [ResponseType(typeof(void))]
-        [HttpPut]
-        [Route("api/Announcements/PutAnnouncement")]
+        //[ResponseType(typeof(void))]
+        //[HttpPut]
+        //[Route("api/Announcements/PutAnnouncement")]
 
-        public IHttpActionResult PutAnnouncement(int id, [FromBody]Announcement a)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //public IHttpActionResult PutAnnouncement(int id, [FromBody]Announcement a)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            if (id != a.AnnouncementId)
-            {
-                return BadRequest();
-            }
-            using (SummerCampDbContext ctx = new SummerCampDbContext())
-            {
-                Announcement foundAnnouncement = ctx.Announcements.Find(a.AnnouncementId);
-                foundAnnouncement.CategoryId = a.CategoryId;
-                foundAnnouncement.Title = a.Title;
-                foundAnnouncement.Description = a.Description;
-                foundAnnouncement.Email = a.Email;
-                foundAnnouncement.Phonenumber = a.Phonenumber;
-                foundAnnouncement.PostDate = DateTime.Now;
-                foundAnnouncement.ExpirationDate = DateTime.Now.AddMonths(1);
-                ctx.SaveChanges();
+        //    if (id != a.AnnouncementId)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    using (SummerCampDbContext ctx = new SummerCampDbContext())
+        //    {
+        //        Announcement foundAnnouncement = ctx.Announcements.Find(a.AnnouncementId);
+        //        foundAnnouncement.CategoryId = a.CategoryId;
+        //        foundAnnouncement.Title = a.Title;
+        //        foundAnnouncement.Description = a.Description;
+        //        foundAnnouncement.Email = a.Email;
+        //        foundAnnouncement.Phonenumber = a.Phonenumber;
+        //        foundAnnouncement.PostDate = DateTime.Now;
+        //        foundAnnouncement.ExpirationDate = DateTime.Now.AddMonths(1);
+        //        ctx.SaveChanges();
 
                
-            }
+        //    }
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
 
 
         [HttpGet]
@@ -94,7 +84,7 @@ namespace SummerCamp.WebAPI.Controllers
                     return Request.CreateResponse(HttpStatusCode.NotFound);
                 }
 
-                var data = new { Id = announcement.AnnouncementId, CategoryName = announcement.Category.Name, CategoryId = announcement.Category.CategoryId, ExpirationDate = announcement.ExpirationDate, PostDate = announcement.PostDate, Phonenumber = announcement.Phonenumber, Title = announcement.Title, Closed = announcement.Closed, Description = announcement.Description, Email = announcement.Email };
+                var data = new { Id = announcement.AnnouncementId, CategoryName = announcement.Category.Name, CategoryId = announcement.Category.CategoryId, ExpirationDate = announcement.ExpirationDate, PostDate = announcement.PostDate, Phonenumber = announcement.Phonenumber, Title = announcement.Title, Closed = announcement.Closed, Description = announcement.Description, Email = announcement.Email, Confirmed = announcement.Confirmed };
 
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
@@ -114,7 +104,8 @@ namespace SummerCamp.WebAPI.Controllers
                     Phonenumber = announcement.Phonenumber,
                     Title = announcement.Title,
                     PostDate = DateTime.Now,
-                    ExpirationDate = DateTime.Now.AddMonths(1)
+                    ExpirationDate = DateTime.Now.AddMonths(1),
+                    Confirmed = false
                 };
 
                 using (SummerCampDbContext ctx = new SummerCampDbContext())
@@ -123,9 +114,9 @@ namespace SummerCamp.WebAPI.Controllers
                     ctx.SaveChanges();
                 }
 
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, announcement);
-                string uri = Url.Link("DefaultApi", new { id = entity.AnnouncementId });
-                response.Headers.Location = new Uri(uri);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created,  entity );
+                //string uri = Url.Link("DefaultApi", new { Id = entity.AnnouncementId });
+                //response.Headers.Location = new Uri(uri);
                 return response;
             }
 
@@ -144,7 +135,7 @@ namespace SummerCamp.WebAPI.Controllers
             {
                 Announcement announcement = ctx.Announcements.FirstOrDefault(a => a.AnnouncementId == id);
 
-                if (string.Equals(announcement.Email, authInfo.Email, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(announcement.Email, authInfo.Email, StringComparison.OrdinalIgnoreCase) && announcement.Confirmed)
                 {
                     announcement.Closed = true;
                     ctx.SaveChanges();
@@ -166,7 +157,7 @@ namespace SummerCamp.WebAPI.Controllers
 
                 if (string.Equals(announcement.Email, authInfo.Email, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (announcement.Closed)
+                    if (announcement.Closed && announcement.Confirmed)
                     {
                         return Request.CreateResponse(HttpStatusCode.MethodNotAllowed);
                     }
@@ -175,6 +166,30 @@ namespace SummerCamp.WebAPI.Controllers
                     ctx.SaveChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+            }
+        }
+        [HttpPost]
+        [Route("api/Announcements/ActivateAnnouncement/{id}")]
+        public HttpResponseMessage ActivateAnnouncement([FromUri] int id, [FromBody] AnnouncementAuthDTO authInfo)
+        {
+            using (SummerCampDbContext ctx = new SummerCampDbContext())
+            {
+                Announcement announcement = ctx.Announcements.FirstOrDefault(a => a.AnnouncementId == id);
+
+                if (string.Equals(announcement.Email, authInfo.Email, StringComparison.OrdinalIgnoreCase) && announcement.Confirmed == false)
+                {
+                    announcement.Confirmed = true;
+                    ctx.SaveChanges();
+
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+                if (announcement.Confirmed)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK);
+
                 }
 
                 return Request.CreateResponse(HttpStatusCode.Forbidden);

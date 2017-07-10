@@ -5,6 +5,7 @@ namespace API.Models
 {
     public class AnnouncementCreateDTO
     {
+        public int AnnouncementId { get; set; }
         [Required]
         [StringLength(16)]
         public string Phonenumber { get; set; }
