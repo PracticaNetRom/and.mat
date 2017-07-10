@@ -8,6 +8,7 @@ namespace SummerCamp2017.Models
 {
     public class Review
     {
+        public DateTime Postdate { get; set; }
         public int ReviewId { get; set; }
         [Required]
         public int Rating { get; set; }

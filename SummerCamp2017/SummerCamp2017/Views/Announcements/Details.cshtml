@@ -182,10 +182,12 @@
     @*@Html.ActionLink("Reviews", "List", "Reviews", new { id = Model.Id }, null)*@
 </p>
 
-
+@if (Model.Closed == false)
+{
 <p>
     @Html.ActionLink("Add review", "CreateRev", "Reviews", new { announcementId = Model.Id }, null)
 </p>
+}
 <div style="display:block">
     @foreach (var item in Model.Reviews)
     {
@@ -255,8 +257,18 @@
             </div>
       </div>
       <br/>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 
-   }
+    }
 </div>
 
 

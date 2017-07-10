@@ -47,6 +47,7 @@ namespace SummerCamp2017.Controllers
         {
             RestClient<Announcement> rc = new RestClient<Announcement>();
             rc.WebServiceUrl = "http://localhost:10469/api/announcements/";
+            //rc.WebServiceUrl = "http://api.summercamp.stage02.netromsoftware.ro/api/announcements/";
             var announcementList = rc.GetAsync();
             return announcementList;
         }
@@ -55,6 +56,7 @@ namespace SummerCamp2017.Controllers
         {
             RestClient<Category> rc = new RestClient<Category>();
             rc.WebServiceUrl = "http://localhost:10469/api/categories/";
+            //rc.WebServiceUrl = "http://api.summercamp.stage02.netromsoftware.ro/api/categories";
             var categoryList = rc.GetAsync();
             return categoryList;
         }
@@ -62,6 +64,7 @@ namespace SummerCamp2017.Controllers
         {
             RestClient<Review> rc = new RestClient<Review>();
             rc.WebServiceUrl = "http://localhost:10469/api/reviews/GetByAnnouncementId?announcementId=" + id;
+            //rc.WebServiceUrl = "http://api.summercamp.stage02.netromsoftware.ro/api/reviews/GetByAnnouncementId?announcementId=" + id;
             var reviewList = rc.GetAsync();
             return reviewList;
         }
@@ -70,6 +73,7 @@ namespace SummerCamp2017.Controllers
         {
             RestClient<AnnouncementPost> rc = new RestClient<AnnouncementPost>();
             rc.WebServiceUrl = "http://localhost:10469/api/Announcements/NewAnnouncement";
+            //rc.WebServiceUrl = "http://api.summercamp.stage02.netromsoftware.ro/api/announcements/newannouncement";
             HttpResponseMessage response = rc.PostAsync(a);
             var id = response.Content.ReadAsStringAsync().Result;
             //string id = Request.Params["id"];
@@ -80,6 +84,7 @@ namespace SummerCamp2017.Controllers
         {
             RestClient<AnnouncementPost> rc = new RestClient<AnnouncementPost>();
             rc.WebServiceUrl = "http://localhost:10469/api/Announcements/NewAnnouncement";
+            //rc.WebServiceUrl = "http://api.summercamp.stage02.netromsoftware.ro/api/announcements/newannouncement";
             HttpResponseMessage response = rc.PostAsync(a);
             var id = response.Content.ReadAsStringAsync().Result;
             //var c = JsonConvert.DeserializeObject<List<AnnouncementPost>>(id);
@@ -92,6 +97,8 @@ namespace SummerCamp2017.Controllers
         {
             RestClient<AnnouncementDetails> rc = new RestClient<AnnouncementDetails>();
             rc.WebServiceUrl = "http://localhost:10469/api/announcements/"+id;
+
+            //rc.WebServiceUrl = "http://api.summercamp.stage02.netromsoftware.ro/api/announcements/" + id;
             var announcement = rc.GetByIdAsyncc();
             return announcement;
         }
@@ -99,6 +106,8 @@ namespace SummerCamp2017.Controllers
         {
             RestClient<AnnouncementPost> rc = new RestClient<AnnouncementPost>();
             rc.WebServiceUrl = "http://localhost:10469/api/announcements/";
+            //rc.WebServiceUrl = "http://api.summercamp.stage02.netromsoftware.ro/api/announcements/";
+
             var announcement = rc.GetByIdAsync(id);
             return announcement;
         }
@@ -115,6 +124,8 @@ namespace SummerCamp2017.Controllers
 
             RestClient<AnnouncementDetails> rc = new RestClient<AnnouncementDetails>();
             rc.WebServiceUrl = "http://localhost:10469/api/Announcements/CloseAnnouncement/" + email.Id;
+            //rc.WebServiceUrl = "http://api.summercamp.stage02.netromsoftware.ro/api/Announcements/CloseAnnouncement/" + email.Id;
+
             HttpResponseMessage response = rc.Close(email);
 
             return response;
@@ -122,7 +133,9 @@ namespace SummerCamp2017.Controllers
         public HttpResponseMessage ActivateAnn(CloseAnnouncement email)
         {
             RestClient<AnnouncementDetails> rc = new RestClient<AnnouncementDetails>();
-            rc.WebServiceUrl = "http://localhost:10469/api/Announcements/ActivateAnnouncement/" + email.Id;
+             rc.WebServiceUrl = "http://localhost:10469/api/Announcements/ActivateAnnouncement/" + email.Id;
+            //rc.WebServiceUrl = "http://api.summercamp.stage02.netromsoftware.ro/api/Announcements/ActivateAnnouncement/" + email.Id;
+
             HttpResponseMessage response = rc.Activate(email);
 
             return response;
@@ -132,6 +145,8 @@ namespace SummerCamp2017.Controllers
 
             RestClient<AnnouncementDetails> rc = new RestClient<AnnouncementDetails>();
             rc.WebServiceUrl = "http://localhost:10469/api/Announcements/ExtendAnnouncement/" + email.Id;
+            //rc.WebServiceUrl = "http://api.summercamp.stage02.netromsoftware.ro/api/Announcements/ExtendAnnouncement/" + email.Id;
+
             HttpResponseMessage response = rc.Extend(email);
 
             return response;

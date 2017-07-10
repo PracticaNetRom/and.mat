@@ -19,7 +19,7 @@ namespace API.DataAccess
             this.Property(t => t.Comment).HasColumnName("Comment").IsRequired().HasMaxLength(512);
             this.Property(t => t.Username).HasColumnName("Username").IsRequired().HasMaxLength(64);
             this.Property(t => t.AnnouncementId).HasColumnName("AnnouncementId");
-
+            this.Property(t => t.Postdate).HasColumnName("Postdate");
             this.HasRequired(t => t.Announcement)
                 .WithMany(t => t.Reviews)
                 .HasForeignKey(d => d.AnnouncementId);

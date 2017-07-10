@@ -1,16 +1,14 @@
 ﻿@model IEnumerable<SummerCamp2017.Models.Announcement>
 <style>
-   
-    .classColor {
+    .classColorz {
         background-color: #f5f5ef;
     }
-    
 </style>
-@{ 
+@{
     List<string> l = new List<string>();
-    foreach(var item in Model)
+    foreach (var item in Model)
     {
-        if(l.Exists(c => c == item.CategoryName) == false)
+        if (l.Exists(c => c == item.CategoryName) == false)
         {
             l.Add(item.CategoryName);
         }
@@ -18,19 +16,29 @@
     }
 }
 <h3>Announcements</h3>
-<div class="dropdown">
-    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-        Categories
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" id="drop">
-        @foreach (var item in l)
-        {
-            <li><a href="#">@Html.DisplayFor(modelItem => item)</a></li>
-        }
-        
-    </ul>
+<div class="dropdown" >
+    <div style="display:inline">
+        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+            Categories
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" id="drop">
+            @foreach (var item in l)
+            {
+                <li><a href="#">@Html.DisplayFor(modelItem => item)</a></li>
+            }
+
+        </ul>
+        <div class="form-group" style="float:right">
+            <input type="text" class="form-control" onkeyup="myFunction()" id="search" placeholder="Search">
+        </div>
+    </div>
+    
 </div>
+@*<div>
+        <input tipy="text" id="search"/>
+        <button id="bt">Search</button>
+    </div>*@
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -80,7 +88,7 @@
                     </td>
                 </tr>
             }
-           
+
         }
     </tbody>
 </table>
@@ -89,22 +97,55 @@
 
 
 <script>
-    $(document).ready(function () {
-        debugger
+    function myFunction() {
+        var val = $("#search").val().toUpperCase();
         var table = $("#tableAnn").find("tbody");
         var tr = table.find("tr");
+        for (var j = 0; j < tr.length; j++) {
+            var td = $(tr[j]).find("td");
+            var aa = td[2].innerText.trim().toUpperCase();
+            //var n = aa.search(val);
+            // if (n == 0) {
+            if (aa.indexOf(val) > -1) {
+                $(tr[j]).show();
+            }
+            else {
+                $(tr[j]).hide();
+            }
+        }
+
+
+
+    }
+    $(document).ready(function () {
+
+        debugger
+
+
+
+
+
+        // $("#bt").on('click', function () {
+        //$("#search").on('keypress',function () {
+
+
+
+
+        var table = $("#tableAnn").find("tbody");
+        var tr = table.find("tr");
+
         for (var i = 0; i < tr.length; i++) {
-            
+
             var td = $(tr[i]).find("td");
             var aa = td.find("input");
 
             if ($(aa).is(':checked')) {
-                $(tr[i]).addClass("classColor");
+                $(tr[i]).addClass("classColorz");
             }
         }
 
         $("li").on("click", function () {
-            
+
             var table = $("#tableAnn").find("tbody");
             var tr = table.find("tr");
             for (var i = 0; i < tr.length; i++) {

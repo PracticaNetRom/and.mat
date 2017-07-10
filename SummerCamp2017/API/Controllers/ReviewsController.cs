@@ -21,7 +21,8 @@ namespace API.Controllers
                   {
                       Rating = r.Rating,
                       Comment = r.Comment,
-                      Username = r.Username
+                      Username = r.Username,
+                      Postdate = r.Postdate
                   }).ToList();
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, data);
@@ -44,7 +45,8 @@ namespace API.Controllers
                     AnnouncementId = review.AnnouncementId,
                     Comment = review.Comment,
                     Username = review.Username,
-                    Rating = review.Rating
+                    Rating = review.Rating,
+                    Postdate = DateTime.Now
                 };
 
                 using (SummerCampDbContext ctx = new SummerCampDbContext())

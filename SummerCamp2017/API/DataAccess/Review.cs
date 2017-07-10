@@ -8,6 +8,7 @@ namespace API.DataAccess
     public class Review
     {
         public int ReviewId { get; set; }
+        public DateTime Postdate { get; set; }
 
         public int? Rating { get; set; }
 

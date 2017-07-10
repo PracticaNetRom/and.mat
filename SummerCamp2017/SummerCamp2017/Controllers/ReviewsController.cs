@@ -63,8 +63,10 @@ namespace SummerCamp2017.Controllers
             AnnouncementDetails a = GetAnnouncementById(review.AnnouncementId);
             try
             {
+                var rev = PostReview(review);
                 var MailHelper = new MailHelper
                 {
+                    
                     Sender = "mateiasiandreea19@gmail.com", //email.Sender,
                     Recipient = a.Email,
                     RecipientCC = null,
@@ -74,7 +76,7 @@ namespace SummerCamp2017.Controllers
                 MailHelper.Send();
 
                 //PostAnnouncement(model);
-                PostReview(review);
+                
             }
             catch (Exception e)
             {
