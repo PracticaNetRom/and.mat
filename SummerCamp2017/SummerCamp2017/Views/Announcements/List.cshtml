@@ -16,6 +16,8 @@
     }
 }
 <h3>Announcements</h3>
+
+@Html.ActionLink("Advanced search", "AdvancedSearch")
 <div class="dropdown" >
     <div style="display:inline">
         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
@@ -30,7 +32,7 @@
 
         </ul>
         <div class="form-group" style="float:right">
-            <input type="text" class="form-control" onkeyup="myFunction()" id="search" placeholder="Search">
+            <input type="text" class="form-control" onkeyup="search()" id="search" placeholder="Search">
         </div>
     </div>
     
@@ -97,7 +99,7 @@
 
 
 <script>
-    function myFunction() {
+    function search() {
         var val = $("#search").val().toUpperCase();
         var table = $("#tableAnn").find("tbody");
         var tr = table.find("tr");

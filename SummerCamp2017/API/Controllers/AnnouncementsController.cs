@@ -25,7 +25,9 @@ namespace SummerCamp.WebAPI.Controllers
                          AnnouncementId = a.AnnouncementId,
                          Closed = a.Closed,
                          Title = a.Title,
-                         CategoryName = a.Category.Name
+                         CategoryName = a.Category.Name,
+                         StartDate = a.PostDate,
+                         EndDate = a.ExpirationDate
                      }).ToList();
 
 

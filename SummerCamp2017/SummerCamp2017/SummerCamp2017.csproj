@@ -205,6 +205,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdvancedSearch.cs" />
     <Compile Include="Models\Announcement.cs" />
     <Compile Include="Models\AnnouncementDetails.cs" />
     <Compile Include="Models\AnnouncementPost.cs" />
@@ -293,6 +294,7 @@
     <Content Include="Views\Announcements\Create.cshtml" />
     <Content Include="Views\Announcements\Close.cshtml" />
     <Content Include="Views\Announcements\Extend.cshtml" />
+    <Content Include="Views\Announcements\AdvancedSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,6 +14,8 @@ using System.IO;
 using System.Linq;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SummerCamp2017.Controllers
 {
@@ -182,13 +184,21 @@ namespace SummerCamp2017.Controllers
 
 
 
+        public string GenerateMD5(string yourString)
+        {
+            return string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(yourString)).Select(s => s.ToString("x2")));
+        }
         [HttpPost]
         public async Task<ActionResult> Create(AnnouncementPost model)
         {
             var a = PostAnnouncementt(model);
+            string yourStringValue = a.AnnouncementId + a.Email;
+            //var hashValue = string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(yourStringValue)).Select(s => s.ToString("x2")));
+            string hashed = GenerateMD5(yourStringValue);
+
             try
             {
-                string body = "<a href='http://localhost:4116/announcements/ActivateAnnouncementEmail/?id=" + a.AnnouncementId + "&email=" + a.Email + "'> confirm announcement</a>";
+                string body = "<a href='http://localhost:4116/announcements/ActivateAnnouncementEmail/?id=" + a.AnnouncementId + "&key=" + hashed + "'> confirm announcement</a>";
                 var MailHelper = new MailHelper
                 {
                     Sender = "mateiasiandreea19@gmail.com", //email.Sender,
@@ -208,34 +218,41 @@ namespace SummerCamp2017.Controllers
             }
             return RedirectToAction("List");
         }
-        public ActionResult ActivateAnnouncementEmail(int id, string email)
+        public ActionResult ActivateAnnouncementEmail(int id, string key)
         {
             CloseAnnouncement model = new CloseAnnouncement();
-            model.Id = id;
-            model.Email = email;
-            AnnouncementDetails a = GetAnnouncementById(model.Id);
-            HttpResponseMessage response = ActivateAnn(model);
-            var s = response.StatusCode.ToString();
-            if (s == "OK" && a.Closed == false)
+            AnnouncementDetails a = GetAnnouncementById(id);
+            string concatenated = a.Id + a.Email;
+            string hashed = GenerateMD5(concatenated);
+            if(hashed == key)
             {
-                return RedirectToAction("List");
-            }
-            else
-            {
-                if (s == "Forbidden" && a.Closed == false)
+                model.Id = a.Id;
+                model.Email = a.Email;
+                HttpResponseMessage response = ActivateAnn(model);
+                var s = response.StatusCode.ToString();
+                if (s == "OK" && a.Closed == false)
                 {
-                    ModelState.AddModelError("err", "email is not valid");
-                    return View();
+                    return RedirectToAction("List");
                 }
-                if (a.Closed == true)
+                else
                 {
-                    ModelState.AddModelError("err", "the announceent is closed");
-                    return View();
+                    if (s == "Forbidden" && a.Closed == false)
+                    {
+                        ModelState.AddModelError("err", "email is not valid");
+                        return RedirectToAction("List");
+                    }
+                    if (a.Closed == true)
+                    {
+                        ModelState.AddModelError("err", "the announceent is closed");
+                        return RedirectToAction("List");
+                    }
+                    return RedirectToAction("List");
                 }
-                return View();
+
             }
-        
-           // return RedirectToAction("List");
+            return RedirectToAction("List");
+
+            // return RedirectToAction("List");
         }
         public ActionResult Details(int id)
         {
@@ -372,6 +389,17 @@ namespace SummerCamp2017.Controllers
             //}
 
 
+        }
+        public ActionResult AdvancedSearch()
+        {
+            List<Category> categories = GetCategories();
+            ViewBag.categories = categories;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AdvancedSearch(AdvancedSearch model)
+        {
+            return View();
         }
 
 
