@@ -56,6 +56,7 @@ namespace Plugin.RestClient
 
             return taskModels;
         }
+
         public HttpResponseMessage PostAsync(T t)
             {
                 var httpClient = new HttpClient();
@@ -97,6 +98,20 @@ namespace Plugin.RestClient
 
                 return response;
             }
+
+        //    public HttpResponseMessage Search (AdvancedSearch t)
+        //{
+        //    var httpClient = new HttpClient();
+        //    var json = JsonConvert.SerializeObject(t);
+
+        //    HttpContent httpContent = new StringContent(json);
+
+        //    httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+        //    HttpResponseMessage response = httpClient.GetAsync(WebServiceUrl).Result;
+
+        //    return response;
+        //}
+
             public HttpResponseMessage Activate(CloseAnnouncement t)
             {
                 var httpClient = new HttpClient();

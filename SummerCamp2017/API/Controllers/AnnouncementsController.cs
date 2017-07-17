@@ -26,8 +26,8 @@ namespace SummerCamp.WebAPI.Controllers
                          Closed = a.Closed,
                          Title = a.Title,
                          CategoryName = a.Category.Name,
-                         StartDate = a.PostDate,
-                         EndDate = a.ExpirationDate
+                         PostDate = a.PostDate,
+                         ExpirationDate = a.ExpirationDate
                      }).ToList();
 
 
@@ -91,6 +91,104 @@ namespace SummerCamp.WebAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
         }
+
+
+        [HttpPost]
+        [Route("api/Announcements/Search/{CategoryId}")]
+
+        public HttpResponseMessage Search([FromUri]int? CategoryId,[FromBody] Title model)
+        {
+            using (SummerCampDbContext ctx = new SummerCampDbContext())
+            {
+                //IEnumerable<Announcement> a = ctx.Announcements;//.FirstOrDefault(a => a.AnnouncementId == CategoryId);
+
+
+                //if (CategoryId.HasValue)
+                //{
+                //    a = a.Where(ann => ann.CategoryId == CategoryId);
+                //    //HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, data);
+
+                //    //return response;
+                //    //return Request.CreateResponse(HttpStatusCode.OK, data);
+                //}
+                //if (model.Text != null)
+                //{
+                //    a = a.Where(ann => ann.Title == model.Text);
+                //}
+                //a.ToList();
+
+                IEnumerable<Announcement> ann = ctx.Announcements;
+                if (CategoryId.HasValue)
+                {
+                    ann = ann.Where(a => a.CategoryId == CategoryId).ToList();
+                }
+
+                if(model.Text != null)
+                {
+                    ann = ann.Where(a => a.Title == model.Text).ToList();
+                }
+                //DateTime date1 = new DateTime(2009, 8, 1, 0, 0, 0);
+                DateTime date = new DateTime(0001, 1, 1, 12, 0, 0);
+                int result1 = DateTime.Compare(model.StartDate, date);
+                int result2 = DateTime.Compare(model.EndDate, date);
+                if (result1 != -1)
+                {
+                    ann = ann.Where(a => model.StartDate.Date < a.PostDate.Date).ToList();
+                }
+                if (result2 != -1)
+                {
+                    ann = ann.Where(a => a.ExpirationDate.Date > model.EndDate.Date).ToList();
+                }
+                if(ann == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+                else
+                {
+                    if(ann == ctx.Announcements)
+                    {
+
+                        var data = ctx.Announcements.Select(a =>
+                                            new
+                                            {
+                                                AnnouncementId = a.AnnouncementId,
+                                                CategoryId = a.CategoryId,
+                                                Description = a.Description,
+                                                Title = a.Title,
+                                                CategoryName = a.Category.Name,
+                                                StartDate = a.PostDate,
+                                                EndDate = a.ExpirationDate
+                                            }).ToList();
+
+
+
+
+
+                        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, data);
+                        return response;
+                    }
+                    else
+                    {
+                        var data = ann.Select(a =>
+                                                           new
+                                                           {
+                                                               AnnouncementId = a.AnnouncementId,
+                                                               CategoryId = a.CategoryId,
+                                                               Description = a.Description,
+                                                               Title = a.Title,
+                                                               CategoryName = a.Category.Name,
+                                                               StartDate = a.PostDate,
+                                                               EndDate = a.ExpirationDate
+                                                           }).ToList();
+
+                        return Request.CreateResponse(HttpStatusCode.OK, data);
+
+                    }
+
+                }
+            }
+        }
+
 
         [HttpPost]
         [Route("api/Announcements/NewAnnouncement")]

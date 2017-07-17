@@ -142,6 +142,18 @@ namespace SummerCamp2017.Controllers
 
             return response;
         }
+
+        //public HttpResponseMessage Search(AdvancedSearch model)
+        //{
+        //    RestClient<AdvancedSearch> rc = new RestClient<AdvancedSearch>();
+        //    rc.WebServiceUrl = "http://localhost:10469/api/Announcements/ActivateAnnouncement/" + model.CategoryId;
+        //    //rc.WebServiceUrl = "http://api.summercamp.stage02.netromsoftware.ro/api/Announcements/ActivateAnnouncement/" + email.Id;
+
+        //    HttpResponseMessage response = rc.Search(model);
+
+        //    return response;
+        //}
+
         public HttpResponseMessage ExtendAnnouncement(CloseAnnouncement email)
         {
 
@@ -204,7 +216,7 @@ namespace SummerCamp2017.Controllers
                     Sender = "mateiasiandreea19@gmail.com", //email.Sender,
                     Recipient = model.Email,
                     RecipientCC = null,
-                    Subject = model.Title + "for sale",
+                    Subject = model.Title + " for sale",
                     Body = body
                 };
                 MailHelper.Send();
@@ -390,15 +402,22 @@ namespace SummerCamp2017.Controllers
 
 
         }
+        //public ActionResult AdvancedSearch(int CategoryId, string Title)
+        //{
+            
+
+
+
+        //    return RedirectToAction("SearchList");
+        //}
+
+
+
+
         public ActionResult AdvancedSearch()
         {
             List<Category> categories = GetCategories();
             ViewBag.categories = categories;
-            return View();
-        }
-        [HttpPost]
-        public ActionResult AdvancedSearch(AdvancedSearch model)
-        {
             return View();
         }
 

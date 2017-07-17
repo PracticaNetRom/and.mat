@@ -71,7 +71,7 @@ namespace SummerCamp2017.Controllers
                     Recipient = a.Email,
                     RecipientCC = null,
                     Subject = "a new comment",
-                    Body = "Someone added this comment: ' "+review.Comment+ "  ' to your announcement : " +a.Title
+                    Body = review.Username + " added this comment: ' "+review.Comment+ "  ' to your announcement : " +a.Title
                 };
                 MailHelper.Send();
 

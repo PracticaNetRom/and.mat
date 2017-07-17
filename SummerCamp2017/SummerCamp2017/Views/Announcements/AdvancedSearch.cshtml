@@ -1,55 +1,250 @@
-﻿
+﻿<style>
+    label {
+  display: inline-block;
+  width: 140px;
+  text-align: right;
+}​
+</style>
+<br/>
+<h1>Advanced search</h1>
+<br/>
+<div style="">
+    <div class="dropdown" id="category">
 
-<div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-        Categories
-        <span class="caret"></span>
-    </button>
-    
-    <ul class="dropdown-menu">
+        <label>Category:</label>
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="dropBttn">
+            Select category
+            <span class="caret"></span>
+        </button>
 
-        @foreach (var item in (ViewBag.categories as List<SummerCamp2017.Models.Category>))
-    {
-            
-        <li><a href="#"><span>@Html.HiddenFor(modelItem => item.CategoryId, "CategoryId")</span>@item.Name</a></li>
+        <ul class="dropdown-menu" id="dropDown" style="right:75%">
 
-    }
+            @foreach (var item in (ViewBag.categories as List<SummerCamp2017.Models.Category>))
+            {
 
-    </ul>
+                <li id="@item.CategoryId"><a href="#">@item.CategoryId - @item.Name</a></li>
 
-    
-</div>
+            }
 
+        </ul>
 
-
-
-
-
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-
-
-<div class="form-group">
-    <div class="col-md-10">
-        @Html.TextBox("Title", new { id = "titleId" })
 
     </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class='col-sm-6'>
-            <div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+
+    @*<div class="dropdown">
+        <label>Categories</label>
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Select
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="right:75%">
+            @foreach (var item in (ViewBag.categories as List<SummerCamp2017.Models.Category>))
+            {
+
+                <li id="@item.CategoryId"><a href="#">@item.CategoryId - @item.Name</a></li>
+
+            }
+        </ul>
+    </div>*@
+
+    <br />
+
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+    <div >
+      
+            <label>Title:</label> <input type="text" id="title" />
+
+      
+    </div>
+    <br />
+    <div>
+        <label>Post Date:</label><input type="date" id="date1" />
+    </div>
+    <br/>
+    <div>
+        <label>Expiration Date:</label><input type="date" id="date2" />
+    </div>
+
+    @*<div class="container">
+            <div class="row">
+                <div class='col-sm-6'>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
                 </div>
+                <script type="text/javascript">
+                    var initDatePicker = function () {
+                        $('#datetimepicker1').datetimepicker();
+                    };
+                  window.onload = initDatePicker;
+                </script>
             </div>
-        </div>
-        <script type="text/javascript">
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
-            });
-        </script>
-    </div>
+        </div>*@
+
+
+
+    <button class="btn" id="searchButt" style="float:right; position: absolute; right: 60%;">
+        Search
+    </button>
+
 </div>
+
+<br/>
+<br/>
+<br/>   
+<div class="container">
+    <h2>Announcements</h2>
+    <table class="table" id="tablet">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Start date</th>
+                <th>End date</th>
+                <th>Category</th>
+
+            </tr>
+        </thead>
+        <tbody id="boddy">
+            
+        </tbody>
+    </table>
+</div>
+
+
+<div id="divv"></div>
+
+<div >
+    <table id="tablet">
+        <tr>
+            
+
+        </tr>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var id;
+        $('#category').on("click", "li", function () {
+            
+            var string = this.innerText.trim();
+            id = string.charAt(0);
+            $(this).parents('#category').find('#dropBttn').html(string + '<span class="caret"></span>');
+            //return dropDown;
+        });
+        $("#searchButt").on("click", function () {
+            var CategoryId = id;
+            //var CategoryId = 1;//$('#category').val();
+            var Title = $('#title').val();
+            var StartDate = $("#date1").val();
+            var EndDate = $("#date2").val();
+
+            if (Title === "") {
+                Title = null;
+            }
+            debugger
+            var obj = {
+
+                'Text': Title,
+                'StartDate': StartDate,
+                'EndDate': EndDate
+
+            };
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+
+                },
+                type: 'POST',
+                url: "http://localhost:10469/api/announcements/search/" + CategoryId,
+                data: JSON.stringify(obj),
+                crossOrigin: true,
+
+                success: function (data) {
+                    console.log(data);
+                    $("#boddy tr").remove();
+                    $("#divv p").remove();
+                    if (data.length == 0) {
+                        var elem = document.createElement("p");
+                        var text = document.createTextNode("No announcement that maches your data was found!");
+                        elem.appendChild(text);
+                        var element = document.getElementById("divv");
+                        element.appendChild(elem);
+                    }
+                    $.each((data), function () {
+                        //$('#dropDownHome').append($("<li></li>").val(this['Destination']).html(this['Destination']));
+                        // if (itemId == this.PackageId) {
+                        console.log("got here");
+                        console.log(this);
+                        //<time datetime="1914-12-20">
+
+
+                        var tr = document.createElement("tr");
+
+                        var td1 = document.createElement("th");
+                        var td2 = document.createElement("th");
+                        var td3 = document.createElement("th");
+                        var td4 = document.createElement("th");
+                        var td5 = document.createElement("th");
+
+
+//                        var time = document.createElement("time");
+  //                      time.setAttribute("datetime", this.StartDate);
+                        
+
+                        var date1 = "date: "+this.EndDate.substr(0, 4) + "-" + this.EndDate.substr(5, 2) + "-"
+                            + this.EndDate.substr(8, 2) + " time: " + this.EndDate.substr(11, 2) + ":" + this.EndDate.substr(14, 2);
+                        var date2 = "date: " + this.StartDate.substr(0, 4) + "-" + this.StartDate.substr(5, 2) + "-"
+                            + this.StartDate.substr(8, 2) + " time: " + this.StartDate.substr(11, 2) + ":" + this.StartDate.substr(14, 2);
+
+                        var plane = document.createTextNode(this.Title);
+                        var a = document.createTextNode(this.CategoryName);
+                        var b = document.createTextNode(date2);
+                        var c = document.createTextNode(date1);
+                        var d = document.createTextNode(this.Description);
+
+                        td1.appendChild(plane);
+                        td2.appendChild(d);
+                        td3.appendChild(b);
+                        td4.appendChild(c);
+                        td5.appendChild(a);
+
+                        tr.appendChild(td1);
+                        tr.appendChild(td2);
+                        tr.appendChild(td3);
+                        tr.appendChild(td4);
+                        tr.appendChild(td5);
+
+                        var element = document.getElementById("boddy");
+                        element.appendChild(tr);
+                        //li_dropdown_home
+                        // }
+                    });
+
+
+                },
+                error: function (response) {
+                    console.log('error updating user by admin');
+                    console.log(response);
+                }
+            })
+        });
+        //});
+
+
+    });
+    
+    //$(document).ready(function () {
+    
+</script>
+
+
